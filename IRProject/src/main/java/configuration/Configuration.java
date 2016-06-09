@@ -16,6 +16,8 @@ public class Configuration {
 	private String analyzerClass = null;
 	private String outputClass = null;
 	private String processorClass = null;
+	private String hashingAlgorithm = null;
+	private String hashDistance = null;
 
 	private File inputFile;
 	private Properties props = null;
@@ -33,10 +35,20 @@ public class Configuration {
 
 		outputClass = props.getProperty(Constants.outputClass);
 		processorClass = props.getProperty(Constants.processorClass);
+		hashingAlgorithm = props.getProperty(Constants.hashingAlgorithm);
+		hashDistance = props.getProperty(Constants.hashDistance);
 
 		if (!checkPropertiesIntegrity())
 			System.exit(-1);
 
+	}
+
+	public String getHashDistance() {
+		return hashDistance;
+	}
+
+	public String getHashingAlgorithm() {
+		return hashingAlgorithm;
 	}
 
 	public String getAnalyzerClass() {
@@ -68,13 +80,12 @@ public class Configuration {
 
 			if (!inputFile.exists())
 				return false;
-			
 
 		} catch (InvalidPathException | NullPointerException ex) {
 
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -96,6 +107,16 @@ public class Configuration {
 		if (algorithmClass == null || algorithmClass.trim().equals("")) {
 
 			logger.error("no valid irp.processing.algorigthm.class value");
+			confHealth = false;
+		}
+		if (hashingAlgorithm == null || hashingAlgorithm.trim().equals("")) {
+
+			logger.error("no valid irp.processing.hashing value");
+			confHealth = false;
+		}
+		if (hashDistance == null || hashDistance.trim().equals("")) {
+
+			logger.error("no valid irp.processing.distance value");
 			confHealth = false;
 		}
 		if (outputClass == null || outputClass.trim().equals("")) {
