@@ -10,5 +10,12 @@ public final class Constants {
 	
 	public static final String processorClass = "irp.processing.processor";
 
+	public static final String hashingAlgorithm = "irp.processing.hashing";
+	
+	public static final String hashDistance = "irp.processing.distance";
+
+	
+
+
 
 }
