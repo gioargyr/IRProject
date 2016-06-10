@@ -3,6 +3,8 @@ package configuration;
 import java.io.File;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ public class Configuration {
 	private String processorClass = null;
 	private String hashingAlgorithm = null;
 	private String hashDistance = null;
+	private String weights;
 
 	private File inputFile;
 	private Properties props = null;
@@ -37,10 +40,30 @@ public class Configuration {
 		processorClass = props.getProperty(Constants.processorClass);
 		hashingAlgorithm = props.getProperty(Constants.hashingAlgorithm);
 		hashDistance = props.getProperty(Constants.hashDistance);
+		weights = props.getProperty(Constants.weights);
 
 		if (!checkPropertiesIntegrity())
 			System.exit(-1);
 
+	}
+
+	public List<Float> getWeights() {
+
+		String[] stringWeights = this.weights.split(",");
+
+		List<Float> floatWeights = new ArrayList<Float>();
+
+		try {
+			for (int s = 0; s < stringWeights.length; s++) {
+				float weightFloat = Float.parseFloat(stringWeights[s]);
+				floatWeights.add(weightFloat);
+
+			}
+		} catch (NumberFormatException ex) {
+			logger.error(ex.getMessage());
+			return null;
+		}
+		return floatWeights;
 	}
 
 	public String getHashDistance() {
@@ -102,6 +125,11 @@ public class Configuration {
 		if (processorClass == null || processorClass.trim().equals("")) {
 
 			logger.error("no valid irp.processing.algorigthm.class value");
+			confHealth = false;
+		}
+		if (getWeights() == null) {
+
+			logger.error("no valid irp.input.weights values");
 			confHealth = false;
 		}
 		if (algorithmClass == null || algorithmClass.trim().equals("")) {
