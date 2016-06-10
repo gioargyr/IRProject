@@ -13,6 +13,8 @@ public final class Constants {
 	public static final String hashingAlgorithm = "irp.processing.hashing";
 	
 	public static final String hashDistance = "irp.processing.distance";
+	
+	public static final String weights = "irp.input.weights";
 
 	
 
