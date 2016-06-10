@@ -2,6 +2,6 @@ package hashing;
 
 public interface HashDistance {
 
-	public int calculate(int hash1, int hash2);
+	public long calculate(long hash1, long hash2);
 
 }
